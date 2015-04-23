@@ -91,7 +91,7 @@ int main(){
             	movieToFind = h.findMovie(title); //search the hashtable for the movie
 
             	if (movieToFind == NULL){ //if NULL is returned, print "not found"
-            		cout << "not found" << endl;
+                    h.movieMatch(title);
             	}
             	else{ //print statement
             		cout << "Movie found in position: " << h.hashFunction(title) << endl;
