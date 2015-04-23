@@ -9,15 +9,12 @@
 //Takes no command line input
 
 #include <iostream>
-#include <regex>
 #include "HashTable.h"
 
 using namespace std;
 
 void displayMenu();
 string askInput();
-int regexTest();
-void similarity();
 
 int main(){
 	HashTable h(10); //initialize the table
@@ -150,73 +147,4 @@ string askInput(){ //waits for user for input, returns a string (works with spac
 	inputString += string(input);
 
 	return inputString;
-}
-
-int regexTest(){
-    std::string subject("Name: John Doe");
-    std::string result;
-    cout << "test" << endl;
-    try {
-        std::regex re("Name: (.*)");
-        std::smatch match;
-        if (std::regex_search(subject, match, re) && match.size() > 1) {
-            result = match.str(1);
-        }
-        else {
-            result = std::string("");
-        } 
-        cout << result << endl;
-    }
-    catch (std::regex_error& e) {
-        cout << "error" << endl;
-          // Syntax error in the regular expression
-    }
-
-  return 0;
-}
-
-void similarity(){
-    string s1 = "This is a test";
-    string s2 = "This is a test";
-    string s1inv = "";
-    string s2inv = "";
-
-    float maxLen;
-    float ham = 0;
-    float score1;
-    float score2;
-
-
-    for (int i = s1.length()-1; i >= 0; i--){
-        s1inv += s1[i];
-    }
-    for (int i = s2.length()-1; i >= 0; i--){
-        s2inv += s2[i];
-    }
-
-
-    for (int i = 0; i < s1.length(); i++){
-        if (s1[i] != s2[i]){
-            ham++;
-        }
-    }
-
-    score1 = (s1.length() - ham) / s1.length();
-
-    cout << score1 << endl;
-
-
-    ham = 0;
-
-
-    for (int i = 0; i < s1inv.length(); i++){
-        if (s1inv[i] != s2inv[i]){
-            ham++;
-        }
-    }
-
-    score2 = (s1inv.length() - ham) / s1inv.length();
-
-    cout << score2 << endl;
-
 }
