@@ -12,6 +12,10 @@ struct Movie{
     int year;
     int ranking;
     Movie *next;
+    Movie *alphaLeft;
+    Movie *alphaRight;
+    Movie *numLeft;
+    Movie *numRight;
 
     Movie(){};
 

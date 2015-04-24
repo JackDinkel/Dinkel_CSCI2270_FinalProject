@@ -11,6 +11,7 @@
 #include <iostream>
 #include <regex>
 #include "HashTable.h"
+#include "BST.h"
 
 using namespace std;
 
@@ -18,6 +19,7 @@ void displayMenu();
 string askInput();
 int regexTest();
 void similarity();
+//void readFileIntoTree(MovieTree * mt, char * fileName);
 
 int main(){
 	HashTable h(10); //initialize the table
@@ -26,6 +28,10 @@ int main(){
 
 	bool quit = false;
 	int input;
+    int MovieCounter = 0;
+
+    MovieTree *intTree = new MovieTree;
+    MovieTree *alphaTree = new MovieTree;
 
 	while(quit != true){ //to run until the user says quit
         displayMenu();
@@ -59,6 +65,11 @@ int main(){
             	newMovie->title = title;
             	newMovie->year = year;
                 newMovie->ranking = ranking;
+
+                if(MovieCounter == 0){
+                    intTree->root = newMovie;
+                    alphaTree->root = newMovie;
+                }
 
             	h.insertMovie(newMovie); //insert the movie into the hashtable
 
@@ -108,8 +119,24 @@ int main(){
                 break;
 
             case 5: //Print in alphebetical order
+            {
+                for (int i = 0; i < 10; i++){
+                    if (h[i].next != NULL){
+                        Movie *tester = new Movie;
+                        tester = h[i].next;
+                        alphaTree->Tree_InsertSTRING(tester, alphaTree->root);
+                        while (tester->next != NULL){
+                            tester = tester->next;
+                            alphaTree->Tree_InsertSTRING(tester, alphaTree->root);
+                        }
+                    }
+                }
+            
+
+
                 cout << "print in alphebetical order" << endl;
                 break;
+            }
 
             case 6: //Print in rank order
                 cout << "print in rank order" << endl;
@@ -220,3 +247,34 @@ void similarity(){
     cout << score2 << endl;
 
 }
+/*
+void readFileIntoTree(MovieTree * mt, char * fileName)
+{
+    ifstream in_stream;
+    cout << fileName << endl;
+    in_stream.open(fileName);
+    if (!in_stream)
+    {
+        cout << "Could not open file\n";
+        return;
+    }
+    string ranking;
+    string title;
+    string releaseYear;
+    string quantity;
+
+    while (!in_stream.eof())
+    {
+        title ="";
+        getline(in_stream, ranking, ',');
+        getline(in_stream, title, ',');
+        getline(in_stream, releaseYear, ',');
+        getline(in_stream, quantity); // "\n" is the default delimiter
+        if (title != "")
+        {
+            //cout << "Adding: " << title << endl;
+            mt->addMovieNode(atoi(ranking.c_str()),title,atoi(releaseYear.c_str()),atoi(quantity.c_str()));
+        }
+    }
+}
+*/

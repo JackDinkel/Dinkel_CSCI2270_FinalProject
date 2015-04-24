@@ -1,40 +1,16 @@
-//Jack Dinkel
-//CSCI 2270 - Hoenigman
-//Final Project
+#ifndef MOVIETREE_H
+#define MOVIETREE_H
 
-//HashTable header file
+#include "HashTable.h"
 
-#ifndef HASHTABLE_H
-#define HASHTABLE_H
 
-struct Movie{
-    std::string title;
-    int year;
-    Movie *next;
-
-    Movie(){};
-
-    Movie(std::string in_title, int in_year)
-    {
-        title = in_title;
-        year = in_year;
-    }
-};
-
-class HashTable
+class MovieTree
 {
     public:
-        HashTable(int size);
-        ~HashTable();
-        void insertMovie(Movie *newMovie);
-        Movie* findMovie(std::string in_title);
-        void deleteMovie(std::string in_title);
-        void printInventory();
-        int hashFunction(std::string in_title);
-    protected:
-    private:
-        int table_size;
-        Movie *hashTable;
+        Movie *root;
+        MovieTree();
+        void Tree_InsertNUM(Movie *newNode, Movie *root);
+        void Tree_InsertSTRING(Movie *newNode, Movie *root);
 };
 
-#endif // HASHTABLE_H
+#endif // MOVIETREE_H
