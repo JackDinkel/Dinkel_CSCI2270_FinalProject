@@ -1,5 +1,6 @@
 #include <iostream>
 #include "BST.h"
+#include "HashTable.h"
 
 using namespace std;
 
@@ -66,5 +67,20 @@ void MovieTree::Tree_InsertSTRING(Movie *newNode, Movie *root){
 
     else{
         p->alphaRight = newNode;
+    }
+}
+
+void MovieTree::buildBSTString(Movie *root){
+    Movie *traverse = new Movie; //Movie node used to move through the linked list
+
+    for (int i = 0; i < 10; i++){ //for every linked list in the table
+        traverse = &hashTable[i]; //start at the beginning of the list
+
+        while (traverse->next != NULL){
+            if (traverse->next->title.size() > 0){ //if the title exists
+                Tree_InsertSTRING(traverse->next, root);
+            }
+            traverse = traverse->next;
+        }
     }
 }
