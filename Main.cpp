@@ -120,7 +120,7 @@ int main(){
                 for (int i = 0; i < 10; i++){
                     if (h[i].next != NULL){
                         Movie *tester = new Movie;
-                        tester = h[i].next;
+                        tester = &h[i].next;
                         alphaTree->Tree_InsertSTRING(tester, alphaTree->root);
                         while (tester->next != NULL){
                             tester = tester->next;

@@ -23,6 +23,11 @@ struct Movie{
     {
         title = in_title;
         year = in_year;
+        next = NULL;
+        alphaRight = NULL;
+        alphaLeft = NULL;
+        numRight = NULL;
+        numLeft = NULL;
     }
 };
 
