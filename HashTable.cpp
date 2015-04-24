@@ -212,3 +212,124 @@ Movie* HashTable::movieMatch(string in_title){
 	}
 
 }
+
+
+void HashTable::Tree_InsertNUM(Movie *newNode, Movie *root){
+    Movie *x = new Movie;
+    x = root;
+
+    Movie *p = new Movie;
+
+    // make sure not at bottom of tree
+    while(x != NULL){
+        p = x;
+
+        // left branch
+        if (newNode->ranking < x->ranking){
+            x = x->numLeft;
+        }
+
+        // right branch
+        else{
+            x = x->numRight;
+        }
+    }   
+
+    if (newNode->ranking < p->ranking){
+        p->numLeft = newNode;   
+    }
+
+    else{
+        p->numRight = newNode;
+    }
+}
+
+void HashTable::Tree_InsertSTRING(Movie *newNode, Movie *root){
+	//cout << "Called insert: " << newNode->title << endl;
+    Movie *x = new Movie;
+    x = root;
+
+    Movie *p = new Movie;
+
+    // make sure not at bottom of tree
+    while(x != NULL){
+
+        p = x;
+        // left branch
+		//cout << "Checking left: " << x->title << endl;
+        if (newNode->title < x->title){
+        	//cout << "Going left..." << endl;
+            x = x->alphaLeft;
+
+        }
+
+        // right branch
+        else{
+            x = x->alphaRight;
+            //cout << "Going right..." << endl;
+        }
+    }   
+    if (newNode->title < p->title){
+        p->alphaLeft = newNode;   
+    }
+
+    else{
+        p->alphaRight = newNode;
+    }
+}
+
+void HashTable::buildBSTString(Movie *root){
+	//cout << "Building String BST" << endl;
+    Movie *traverse = new Movie; //Movie node used to move through the linked list
+    for (int i = 0; i < 10; i++){ //for every linked list in the table
+        traverse = &HashTable::hashTable[i]; //start at the beginning of the list
+        while (traverse->next != NULL){
+            if (traverse->next->title.size() > 0 && traverse->next->title != root->title){ //if the title exists
+                Tree_InsertSTRING(traverse->next, root);
+                //cout << "Inserted: " << traverse->next->title << endl;
+            }
+            traverse = traverse->next;
+        }
+    }
+}
+
+void HashTable::buildBSTNum(Movie *root){
+	//cout << "Building String BST" << endl;
+    Movie *traverse = new Movie; //Movie node used to move through the linked list
+    for (int i = 0; i < 10; i++){ //for every linked list in the table
+        traverse = &HashTable::hashTable[i]; //start at the beginning of the list
+        while (traverse->next != NULL){
+            if (traverse->next->title.size() > 0 && traverse->next->title != root->title){ //if the title exists
+                Tree_InsertNUM(traverse->next, root);
+                //cout << "Inserted: " << traverse->next->title << endl;
+            }
+            traverse = traverse->next;
+        }
+    }
+}
+
+void HashTable::PrintThatTreeString(Movie *root){
+  //if x.left != NULL
+	if (root->alphaLeft != NULL)
+	{
+		PrintThatTreeString(root->alphaLeft);
+	}
+  	cout << "Movie: " << root->title << " || Ranking: " << root->ranking << endl;
+  	if (root->alphaRight != NULL)
+  	{
+    	PrintThatTreeString(root->alphaRight);
+  	}
+}
+
+void HashTable::PrintThatTreeNum(Movie *root){
+  //if x.left != NULL
+	if (root->numLeft != NULL)
+	{
+		PrintThatTreeString(root->numLeft);
+	}
+  	cout << "Movie: " << root->title << " || Ranking: " << root->ranking << endl;
+  	if (root->numRight != NULL)
+  	{
+    	PrintThatTreeString(root->numRight);
+  	}
+}

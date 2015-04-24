@@ -10,7 +10,6 @@
 
 #include <iostream>
 #include "HashTable.h"
-#include "BST.h"
 
 using namespace std;
 
@@ -26,9 +25,6 @@ int main(){
 	bool quit = false;
 	int input;
     int MovieCounter = 0;
-
-    MovieTree *intTree = new MovieTree;
-    MovieTree *alphaTree = new MovieTree;
 
 	while(quit != true){ //to run until the user says quit
         displayMenu();
@@ -62,10 +58,16 @@ int main(){
             	newMovie->title = title;
             	newMovie->year = year;
                 newMovie->ranking = ranking;
+                newMovie->next = NULL;
+                newMovie->alphaLeft = NULL;
+                newMovie->alphaRight = NULL;
+                newMovie->numLeft = NULL;
+                newMovie->numRight = NULL;
 
-                if(MovieCounter == 0){
-                    intTree->root = newMovie;
-                    alphaTree->root = newMovie;
+                // Root successfully created and stored
+                if (MovieCounter == 0){
+                    h.root = newMovie;
+                    MovieCounter++;
                 }
 
             	h.insertMovie(newMovie); //insert the movie into the hashtable
@@ -118,12 +120,15 @@ int main(){
             case 5: //Print in alphebetical order
             {
                 cout << "print in alphebetical order" << endl;
-                alphaTree->buildBSTString(alphaTree->root);
+                h.buildBSTString(h.root);
+                h.PrintThatTreeString(h.root);
                 break;
             }
 
             case 6: //Print in rank order
                 cout << "print in rank order" << endl;
+                h.buildBSTNum(h.root);
+                h.PrintThatTreeNum(h.root);
                 break;
 
             case 7: //Quit
