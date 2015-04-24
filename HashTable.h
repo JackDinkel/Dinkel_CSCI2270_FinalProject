@@ -37,9 +37,12 @@ class HashTable
         void printInventory();
         int hashFunction(std::string in_title);
         bool ham(std::string in_title, std::string compare_title);
+        Movie* buildMovieArray();
+        Movie* movieMatch(std::string in_title);
     protected:
     private:
         int table_size;
+        int movies_in_table = 0;
         Movie *hashTable;
 };
 

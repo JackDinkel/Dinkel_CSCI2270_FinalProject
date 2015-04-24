@@ -48,6 +48,7 @@ void HashTable::insertMovie(Movie *newMovie){ //inserts a movie into the hashtab
 			traverse->next = newMovie;
 		}
 	}
+	movies_in_table++;
 }
 
 Movie* HashTable::findMovie(string in_title){ //searches for a movie inside the hashtable
@@ -143,7 +144,7 @@ bool HashTable::ham(string in_title, string compare_title){
 
     score1 = (in_title.length() - ham) / in_title.length();
 
-    cout << score1 << endl;
+    //cout << score1 << endl;
 
 
     ham = 0;
@@ -157,14 +158,57 @@ bool HashTable::ham(string in_title, string compare_title){
 
     score2 = (in_title_inverse.length() - ham) / in_title_inverse.length();
 
-    cout << score2 << endl;
+    //cout << score2 << endl;
     if (score1 < score2){
     	score1 = score2;
     }
-    if (score2 >= .5){
+    if (score1 >= .5){
     	return true;
     }
     else{
     	return false;
     }
+}
+
+Movie* HashTable::buildMovieArray(){
+	Movie *movieArray = new Movie[movies_in_table];
+	Movie *traverse = new Movie; //Movie node used to move through the linked list
+	int x = 0;
+
+	for (int i = 0; i < table_size; i++){ //for every linked list in the table
+		traverse = &hashTable[i]; //start at the beginning of the list
+
+		while (traverse->next != NULL){
+			if (traverse->next->title.size() > 0){ //if the title exists
+				movieArray[x] = *traverse->next;
+				x++;
+			}
+			traverse = traverse->next;
+		}
+	}
+	return movieArray;
+}
+
+Movie* HashTable::movieMatch(string in_title){
+	Movie *movieArray = new Movie[movies_in_table];
+	int count = 0;
+
+	cout << "No match found. Searching for close matches..." << endl;
+	
+
+	movieArray = buildMovieArray(); //convert hashtable into an array that can be searched through
+
+	for (int i = 0; i < movies_in_table; i++){
+		if (ham(in_title, movieArray[i].title)){
+			cout << "Close match found:" << endl;
+			cout << "\tTitle: " << movieArray[i].title << endl;
+            cout << "\tYear: " << movieArray[i].year << endl;
+            cout << "\tRanking: " << movieArray[i].ranking << endl;
+			count++;
+		}
+	}
+	if (count == 0){
+		cout << "No close matches found." << endl;
+	}
+
 }
