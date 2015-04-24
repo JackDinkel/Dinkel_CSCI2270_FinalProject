@@ -53,7 +53,7 @@ int main(){
             	cin >> year;
                 cout << "Enter your ranking (1-10): ";
                 cin >> ranking;
-                while (ranking > 100 || ranking < 1){ //if ranking invalid
+                while (ranking > 10 || ranking < 1){ //if ranking invalid
                     cout << "Invalid ranking! Please enter an integer between 1 and 10: ";
                     cin >> ranking;
                 }
