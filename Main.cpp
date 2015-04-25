@@ -16,11 +16,8 @@ using namespace std;
 void displayMenu();
 string askInput();
 
-
 int main(){
 	HashTable h(10); //initialize the table
-    cout << h.ham("this is a test", "thisis a test") << endl;
-    cout << h.ham("another test", "another") << endl;
 
 	bool quit = false;
 	int input;
@@ -119,14 +116,12 @@ int main(){
 
             case 5: //Print in alphebetical order
             {
-                cout << "print in alphebetical order" << endl;
                 h.buildBSTString(h.root);
                 h.PrintThatTreeString(h.root);
                 break;
             }
 
             case 6: //Print in rank order
-                cout << "print in rank order" << endl;
                 h.buildBSTNum(h.root);
                 h.PrintThatTreeNum(h.root);
                 break;

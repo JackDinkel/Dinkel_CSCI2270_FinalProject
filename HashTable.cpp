@@ -225,7 +225,7 @@ void HashTable::Tree_InsertNUM(Movie *newNode, Movie *root){
         p = x;
 
         // left branch
-        if (newNode->ranking < x->ranking){
+        if (newNode->ranking > x->ranking){
             x = x->numLeft;
         }
 
@@ -235,7 +235,7 @@ void HashTable::Tree_InsertNUM(Movie *newNode, Movie *root){
         }
     }   
 
-    if (newNode->ranking < p->ranking){
+    if (newNode->ranking > p->ranking){
         p->numLeft = newNode;   
     }
 
@@ -245,48 +245,39 @@ void HashTable::Tree_InsertNUM(Movie *newNode, Movie *root){
 }
 
 void HashTable::Tree_InsertSTRING(Movie *newNode, Movie *root){
-	//cout << "Called insert: " << newNode->title << endl;
-    Movie *x = new Movie;
-    x = root;
+    Movie *traverse = new Movie; //Movie node used for moving through the tree
+    Movie *parent = new Movie; //Movie node used to keep track of the parent of newNode
 
-    Movie *p = new Movie;
+    traverse = root; //set traverse to start at root
 
-    // make sure not at bottom of tree
-    while(x != NULL){
+    //navigate through tree to correct location
+    while(traverse != NULL){ // make sure not at bottom of tree
+        parent = traverse;
 
-        p = x;
-        // left branch
-		//cout << "Checking left: " << x->title << endl;
-        if (newNode->title < x->title){
-        	//cout << "Going left..." << endl;
-            x = x->alphaLeft;
-
+        if (newNode->title < traverse->title){ // left branch
+            traverse = traverse->alphaLeft;
         }
-
-        // right branch
-        else{
-            x = x->alphaRight;
-            //cout << "Going right..." << endl;
+        else{ // right branch
+            traverse = traverse->alphaRight;
         }
-    }   
-    if (newNode->title < p->title){
-        p->alphaLeft = newNode;   
     }
 
+    //insert newNode
+    if (newNode->title < parent->title){
+        parent->alphaLeft = newNode;   
+    }
     else{
-        p->alphaRight = newNode;
+        parent->alphaRight = newNode;
     }
 }
 
 void HashTable::buildBSTString(Movie *root){
-	//cout << "Building String BST" << endl;
     Movie *traverse = new Movie; //Movie node used to move through the linked list
     for (int i = 0; i < 10; i++){ //for every linked list in the table
         traverse = &HashTable::hashTable[i]; //start at the beginning of the list
         while (traverse->next != NULL){
             if (traverse->next->title.size() > 0 && traverse->next->title != root->title){ //if the title exists
                 Tree_InsertSTRING(traverse->next, root);
-                //cout << "Inserted: " << traverse->next->title << endl;
             }
             traverse = traverse->next;
         }
@@ -294,14 +285,12 @@ void HashTable::buildBSTString(Movie *root){
 }
 
 void HashTable::buildBSTNum(Movie *root){
-	//cout << "Building String BST" << endl;
     Movie *traverse = new Movie; //Movie node used to move through the linked list
     for (int i = 0; i < 10; i++){ //for every linked list in the table
         traverse = &HashTable::hashTable[i]; //start at the beginning of the list
         while (traverse->next != NULL){
             if (traverse->next->title.size() > 0 && traverse->next->title != root->title){ //if the title exists
                 Tree_InsertNUM(traverse->next, root);
-                //cout << "Inserted: " << traverse->next->title << endl;
             }
             traverse = traverse->next;
         }
@@ -309,12 +298,14 @@ void HashTable::buildBSTNum(Movie *root){
 }
 
 void HashTable::PrintThatTreeString(Movie *root){
-  //if x.left != NULL
 	if (root->alphaLeft != NULL)
 	{
 		PrintThatTreeString(root->alphaLeft);
 	}
-  	cout << "Movie: " << root->title << " || Ranking: " << root->ranking << endl;
+	//print statements
+    cout << "\tTitle: " << root->title << endl;
+    cout << "\tYear: " << root->year << endl;
+    cout << "\tRanking: " << root->ranking << endl;
   	if (root->alphaRight != NULL)
   	{
     	PrintThatTreeString(root->alphaRight);
@@ -322,14 +313,16 @@ void HashTable::PrintThatTreeString(Movie *root){
 }
 
 void HashTable::PrintThatTreeNum(Movie *root){
-  //if x.left != NULL
 	if (root->numLeft != NULL)
 	{
-		PrintThatTreeString(root->numLeft);
+		PrintThatTreeNum(root->numLeft);
 	}
-  	cout << "Movie: " << root->title << " || Ranking: " << root->ranking << endl;
+	//print statements
+    cout << "\tTitle: " << root->title << endl;
+    cout << "\tYear: " << root->year << endl;
+    cout << "\tRanking: " << root->ranking << endl;
   	if (root->numRight != NULL)
   	{
-    	PrintThatTreeString(root->numRight);
+    	PrintThatTreeNum(root->numRight);
   	}
 }
