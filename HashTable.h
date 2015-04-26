@@ -43,7 +43,7 @@ class HashTable
         int hashFunction(std::string in_title);
         bool ham(std::string in_title, std::string compare_title);
         Movie* buildMovieArray();
-        Movie* movieMatch(std::string in_title);
+        void movieMatch(std::string in_title);
 
         void Tree_InsertNUM(Movie *newNode, Movie *root);
         void Tree_InsertSTRING(Movie *newNode, Movie *root);
@@ -51,6 +51,7 @@ class HashTable
         void buildBSTNum(Movie *root);
         void PrintThatTreeString(Movie *root);
         void PrintThatTreeNum(Movie *root);
+
         Movie *root;
     protected:
     private:

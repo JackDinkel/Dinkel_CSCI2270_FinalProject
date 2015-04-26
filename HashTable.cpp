@@ -41,7 +41,7 @@ HashTable::HashTable(int size){
 HashTable::~HashTable(){ //dtor
 }
 
-void HashTable::insertMovie(Movie *newMovie){ //inserts a movie into the hashtable
+void HashTable::insertMovie(Movie *newMovie){
 	/*
     Function prototype:
     void HashTable::insertMovie(Movie*);
@@ -97,7 +97,7 @@ void HashTable::insertMovie(Movie *newMovie){ //inserts a movie into the hashtab
 	movies_in_table++;
 }
 
-Movie* HashTable::findMovie(string in_title){ //searches for a movie inside the hashtable
+Movie* HashTable::findMovie(string in_title){
 	/*
     Function prototype:
     Movie* HashTable::findMovie(string);
@@ -137,7 +137,28 @@ Movie* HashTable::findMovie(string in_title){ //searches for a movie inside the 
 	return traverse; //return NULL
 }
 
-void HashTable::deleteMovie(string in_title){ //remove a movie from the hashtable
+void HashTable::deleteMovie(string in_title){
+	/*
+    Function prototype:
+    void HashTable::deleteMovie(string);
+
+    Function Description:
+    Removes a movie from the hashTable
+    Prints "not found" if the movie doesn't exist
+
+    Example:
+    string title;
+    //set the value of title
+	h.deleteMovie(title);
+
+    Pre-condition:
+    The hashTable must exist
+    There can be any number of movies in it
+
+    Post-condition:
+    The movie with the corresponding title will no longer be in the hashTable or "not found" will be printed
+    */
+
 	int index = hashFunction(in_title); //find location of Movie inside the hashtable
 	Movie *traverse = new Movie; //Movie node used to move through the linked list
 
@@ -146,7 +167,7 @@ void HashTable::deleteMovie(string in_title){ //remove a movie from the hashtabl
 	while (traverse->next != NULL){
 		if (traverse->next->title == in_title){ //if the titles match
 			traverse->next = traverse->next->next; //overwrite the old node
-			return;
+			return; //end the function
 		}
 		traverse = traverse->next;
 	}
@@ -155,7 +176,26 @@ void HashTable::deleteMovie(string in_title){ //remove a movie from the hashtabl
 	return;
 }
 
-void HashTable::printInventory(){ //prints the contents of the hashtable
+void HashTable::printInventory(){
+	/*
+    Function prototype:
+    void HashTable::printInventory();
+
+    Function Description:
+    Loops through the hashTable and prints movie information for each Movie in the hashTable
+    Prints "empty" if the hashTable is empty
+
+    Example:
+    h.printInventory();
+
+    Pre-condition:
+    The hashTable must exist
+    There can be any number of movies in it
+
+    Post-condition:
+    All movies inside the hashTable will be printed to the scren
+    */
+
 	int count = 0; //used to keep track of whether anything is ever printed
 	Movie *traverse = new Movie; //Movie node used to move through the linked list
 
@@ -164,22 +204,43 @@ void HashTable::printInventory(){ //prints the contents of the hashtable
 
 		while (traverse->next != NULL){
 			if (traverse->next->title.size() > 0){ //if the title exists
+				//print statements
 				cout << "Movie found in position: " << i << endl;
                 cout << "\tTitle: " << traverse->next->title << endl;
                 cout << "\tYear: " << traverse->next->year << endl;
                 cout << "\tRanking: " << traverse->next->ranking << endl;
-				count++;
+				count++; //keeps track of whether the if statement has been entered
 			}
 			traverse = traverse->next;
 		}
 	}
 
-	if (count == 0){ //if nothing was ever printed (the table is empty)
+	if (count == 0){ //if the table is empty
 		cout << "empty" << endl;
 	}
 }
 
-int HashTable::hashFunction(string in_title){ //hash function, adds up ASCII values and mods by hashtable size
+int HashTable::hashFunction(string in_title){
+	/*
+    Function prototype:
+    int HashTable::hashFunction(string);
+
+    Function Description:
+    This hash function adds up the ASCII values for each character in the 
+    string in_title and mods by the size of the hashtable.
+    It then returns that value.
+
+    Example:
+    int hash;
+    hash = h.hashFunction("My Title");
+
+    Pre-condition:
+    None
+
+    Post-condition:
+    The hashValue of the in_title will be returned
+    */
+
 	int hash = 0;
 
 	for (int i = 0; i < in_title.length(); i++){ //for each character in the string
@@ -191,12 +252,37 @@ int HashTable::hashFunction(string in_title){ //hash function, adds up ASCII val
 }
 
 bool HashTable::ham(string in_title, string compare_title){
-	string in_title_inverse = "";
-	string compare_title_inverse = "";
-	float ham = 0;
-	float score1;
-	float score2;
+	/*
+    Function prototype:
+    bool HashTable::ham(string, string);
 
+    Function Description:
+    This function calculates the hamming distance between two strings and returns whether
+    that distance is greater than .5.
+    It takes two strings and compares them twice, starting at the beginning and the end.
+    The more similarity the strings have, the higher the hamming distance will be.
+    The higher of the two numbers is then compared to .5.
+    If the number is greater than .5, the function returns true, otherwise, false.
+
+    Example:
+    if (h.ham("my_title_1, my_title_2")){
+		cout << "The two titles are close" << endl;
+    }
+
+    Pre-condition:
+    None
+
+    Post-condition:
+    The function will return a boolean value
+    */
+
+    float ham = 0; //counter used to calculate hamming distance
+	float score1; //forward comparison score
+	float score2; //backward comparison score
+	string in_title_inverse = ""; //used to build inverse of in_title
+	string compare_title_inverse = ""; //used to build inverse of compare_title
+
+	//build inverses
 	for (int i = in_title.length()-1; i >= 0; i--){
         in_title_inverse += in_title[i];
     }
@@ -204,33 +290,31 @@ bool HashTable::ham(string in_title, string compare_title){
         compare_title_inverse += compare_title[i];
     }
 
-
+    //count letters that are the same
     for (int i = 0; i < in_title.length(); i++){
         if (in_title[i] != compare_title[i]){
             ham++;
         }
     }
 
-    score1 = (in_title.length() - ham) / in_title.length();
+    score1 = (in_title.length() - ham) / in_title.length(); //calculate hamming distance
 
-    //cout << score1 << endl;
+    ham = 0; //reset for backwards comparison
 
-
-    ham = 0;
-
-
+    //count letters that are the same
     for (int i = 0; i < in_title_inverse.length(); i++){
         if (in_title_inverse[i] != compare_title_inverse[i]){
             ham++;
         }
     }
 
-    score2 = (in_title_inverse.length() - ham) / in_title_inverse.length();
+    score2 = (in_title_inverse.length() - ham) / in_title_inverse.length(); //calculate hamming distance
 
-    //cout << score2 << endl;
+    //compare the two scores
     if (score1 < score2){
     	score1 = score2;
     }
+    //return true if greater than .5
     if (score1 >= .5){
     	return true;
     }
@@ -240,6 +324,27 @@ bool HashTable::ham(string in_title, string compare_title){
 }
 
 Movie* HashTable::buildMovieArray(){
+	/*
+    Function prototype:
+    Movie* HashTable::buildMovieArray();
+
+    Function Description:
+    This function loops through the hashTable and stores each movie in a simple array.
+    This allows each movie to be looped through very easily.
+
+    Example:
+    Movie *movieArray = new Movie[movies_in_table];
+    movieArray = buildMovieArray();
+
+    Pre-condition:
+    The hashTable exists and contains any number of movies.
+    The program knows the number of movies in the hashTable, which must be the size of the arrray
+
+    Post-condition:
+    Returns a pointer to the beginning of the new array that contains each movie in the hashTable.
+    The hashTable is untouched.
+    */
+
 	Movie *movieArray = new Movie[movies_in_table];
 	Movie *traverse = new Movie; //Movie node used to move through the linked list
 	int x = 0;
@@ -258,17 +363,39 @@ Movie* HashTable::buildMovieArray(){
 	return movieArray;
 }
 
-Movie* HashTable::movieMatch(string in_title){
+void HashTable::movieMatch(string in_title){
+	/*
+    Function prototype:
+    void HashTable::movieMatch(string);
+
+    Function Description:
+    This function calls buildMovieArray() to build an array out of the hashTable.
+    It then loops through the array and uses ham() to calculate the hamming distance
+    between in_title and the title of the movie in the array.
+    If the hamming distance is close, the function then prints the movie information.
+    If not, it prints "No close matches found."
+
+    Example:
+    h.movieMatch(my_title);
+
+    Pre-condition:
+    The hashTable exists and contains any number of movies.
+    The program knows the number of movies in the hashTable
+
+    Post-condition:
+    Prints movie information if a match is found
+    */
+
 	Movie *movieArray = new Movie[movies_in_table];
 	int count = 0;
 
 	cout << "No match found. Searching for close matches..." << endl;
 	
-
 	movieArray = buildMovieArray(); //convert hashtable into an array that can be searched through
 
 	for (int i = 0; i < movies_in_table; i++){
-		if (ham(in_title, movieArray[i].title)){
+		if (ham(in_title, movieArray[i].title)){ //if the hamming distance is large enough
+			//print statements
 			cout << "Close match found:" << endl;
 			cout << "\tTitle: " << movieArray[i].title << endl;
             cout << "\tYear: " << movieArray[i].year << endl;
@@ -279,54 +406,89 @@ Movie* HashTable::movieMatch(string in_title){
 	if (count == 0){
 		cout << "No close matches found." << endl;
 	}
-
 }
-
 
 void HashTable::Tree_InsertNUM(Movie *newNode, Movie *root){
-    Movie *x = new Movie;
-    x = root;
+	/*
+    Function prototype:
+    void HashTable::Tree_InsertNUM(Movie*, Movie*);
 
-    Movie *p = new Movie;
+    Function Description:
+    This function inserts the Movie newNode into a binary search tree for ranking
 
-    // make sure not at bottom of tree
-    while(x != NULL){
-        p = x;
+    Example:
+    Movie *movie_to_insert = new Movie;
+    Movie *root = new Movie;
+    //set values for movie_to_insert and root
+    h.Tree_InsertNUM(movie_to_insert, root);
 
-        // left branch
-        if (newNode->ranking > x->ranking){
-            x = x->numLeft;
-        }
+    Pre-condition:
+    The BST can contain any number of Movies
 
-        // right branch
-        else{
-            x = x->numRight;
-        }
-    }   
+    Post-condition:
+    The BST now contains movie_to_insert, sorted with the greatest ranking to the left
+    */
 
-    if (newNode->ranking > p->ranking){
-        p->numLeft = newNode;   
-    }
-
-    else{
-        p->numRight = newNode;
-    }
-}
-
-void HashTable::Tree_InsertSTRING(Movie *newNode, Movie *root){
     Movie *traverse = new Movie; //Movie node used for moving through the tree
     Movie *parent = new Movie; //Movie node used to keep track of the parent of newNode
 
     traverse = root; //set traverse to start at root
 
     //navigate through tree to correct location
-    while(traverse != NULL){ // make sure not at bottom of tree
+    while(traverse != NULL){ //make sure not at bottom of tree
         parent = traverse;
 
-        if (newNode->title < traverse->title){ // left branch
+        if (newNode->ranking > traverse->ranking){ //left brance
+            traverse = traverse->numLeft;
+        }
+        else{ //right brance
+            traverse = traverse->numRight;
+        }
+    }   
+
+    //insert newNode
+    if (newNode->ranking > parent->ranking){
+        parent->numLeft = newNode;   
+    }
+    else{
+        parent->numRight = newNode;
+    }
+}
+
+void HashTable::Tree_InsertSTRING(Movie *newNode, Movie *root){
+	/*
+    Function prototype:
+    void HashTable::Tree_InsertSTRING(Movie*, Movie*);
+
+    Function Description:
+    This function inserts the Movie newNode into an alphabetized binary search tree
+
+    Example:
+    Movie *movie_to_insert = new Movie;
+    Movie *root = new Movie;
+    //set values for movie_to_insert and root
+    h.Tree_InsertSTRING(movie_to_insert, root);
+
+    Pre-condition:
+    The BST can contain any number of Movies
+
+    Post-condition:
+    The BST now contains movie_to_insert, sorted with the alphabetically greatest to the left
+    */
+
+    Movie *traverse = new Movie; //Movie node used for moving through the tree
+    Movie *parent = new Movie; //Movie node used to keep track of the parent of newNode
+
+    traverse = root; //set traverse to start at root
+
+    //navigate through tree to correct location
+    while(traverse != NULL){ //make sure not at bottom of tree
+        parent = traverse;
+
+        if (newNode->title < traverse->title){ //left branch
             traverse = traverse->alphaLeft;
         }
-        else{ // right branch
+        else{ //right branch
             traverse = traverse->alphaRight;
         }
     }
@@ -341,6 +503,25 @@ void HashTable::Tree_InsertSTRING(Movie *newNode, Movie *root){
 }
 
 void HashTable::buildBSTString(Movie *root){
+	/*
+    Function prototype:
+    void HashTable::buildBSTString(Movie*);
+
+    Function Description:
+    This function loops through the hashTable and calls Tree_InsertSTRING() to build a tree out of it.
+
+    Example:
+    Movie *root = new Movie;
+    //set values for root
+    h.buildBSTString(root);
+
+    Pre-condition:
+    The hashTable must exist and can contain any number of movies
+
+    Post-condition:
+    A BST has been created that contains each movie in the hashTable and is orderd alphabetically
+    */
+
     Movie *traverse = new Movie; //Movie node used to move through the linked list
     for (int i = 0; i < 10; i++){ //for every linked list in the table
         traverse = &HashTable::hashTable[i]; //start at the beginning of the list
@@ -354,6 +535,25 @@ void HashTable::buildBSTString(Movie *root){
 }
 
 void HashTable::buildBSTNum(Movie *root){
+	/*
+    Function prototype:
+    void HashTable::buildBSTNum(Movie*);
+
+    Function Description:
+    This function loops through the hashTable and calls Tree_InsertNUM() to build a tree out of it.
+
+    Example:
+    Movie *root = new Movie;
+    //set values for root
+    h.buildBSTNum(root);
+
+    Pre-condition:
+    The hashTable must exist and can contain any number of movies
+
+    Post-condition:
+    A BST has been created that contains each movie in the hashTable and is orderd by rank
+    */
+
     Movie *traverse = new Movie; //Movie node used to move through the linked list
     for (int i = 0; i < 10; i++){ //for every linked list in the table
         traverse = &HashTable::hashTable[i]; //start at the beginning of the list
@@ -367,9 +567,30 @@ void HashTable::buildBSTNum(Movie *root){
 }
 
 void HashTable::PrintThatTreeString(Movie *root){
+	/*
+    Function prototype:
+    void HashTable::PrintThatTreeString(Movie*);
+
+    Function Description:
+    This function recursively loops through the BST and prints movie information for each Movie.
+
+    Example:
+    Movie *root = new Movie;
+    //set values for root
+    h.buildBSTString(root);
+    h.PrintThatTreeString(root);
+
+    Pre-condition:
+    The BST must exist and contain any number of movies.
+    buildBSTString() needs to have been called to ensure the BST exists properly.
+
+    Post-condition:
+    The contents of the BST have been printed
+    */
+
 	if (root->alphaLeft != NULL)
 	{
-		PrintThatTreeString(root->alphaLeft);
+		PrintThatTreeString(root->alphaLeft); //move left
 	}
 	//print statements
     cout << "\tTitle: " << root->title << endl;
@@ -377,14 +598,35 @@ void HashTable::PrintThatTreeString(Movie *root){
     cout << "\tRanking: " << root->ranking << endl;
   	if (root->alphaRight != NULL)
   	{
-    	PrintThatTreeString(root->alphaRight);
+    	PrintThatTreeString(root->alphaRight); //move right
   	}
 }
 
 void HashTable::PrintThatTreeNum(Movie *root){
+	/*
+    Function prototype:
+    void HashTable::PrintThatTreeNum(Movie*);
+
+    Function Description:
+    This function recursively loops through the BST and prints movie information for each Movie.
+
+    Example:
+    Movie *root = new Movie;
+    //set values for root
+    h.buildBSTNum(root);
+    h.PrintThatTreeNum(root);
+
+    Pre-condition:
+    The BST must exist and contain any number of movies.
+    buildBSTNum() needs to have been called to ensure the BST exists properly.
+
+    Post-condition:
+    The contents of the BST have been printed
+    */
+
 	if (root->numLeft != NULL)
 	{
-		PrintThatTreeNum(root->numLeft);
+		PrintThatTreeNum(root->numLeft); //move left
 	}
 	//print statements
     cout << "\tTitle: " << root->title << endl;
@@ -392,6 +634,6 @@ void HashTable::PrintThatTreeNum(Movie *root){
     cout << "\tRanking: " << root->ranking << endl;
   	if (root->numRight != NULL)
   	{
-    	PrintThatTreeNum(root->numRight);
+    	PrintThatTreeNum(root->numRight); //move right
   	}
 }
