@@ -205,7 +205,7 @@ void HashTable::printInventory(){
 		while (traverse->next != NULL){
 			if (traverse->next->title.size() > 0){ //if the title exists
 				//print statements
-				cout << "Movie found in position: " << i << endl;
+				cout << "Movie found:" << endl;
                 cout << "\tTitle: " << traverse->next->title << endl;
                 cout << "\tYear: " << traverse->next->year << endl;
                 cout << "\tRanking: " << traverse->next->ranking << endl;
@@ -593,6 +593,7 @@ void HashTable::PrintThatTreeString(Movie *root){
 		PrintThatTreeString(root->alphaLeft); //move left
 	}
 	//print statements
+	cout << "Movie found: " << endl;
     cout << "\tTitle: " << root->title << endl;
     cout << "\tYear: " << root->year << endl;
     cout << "\tRanking: " << root->ranking << endl;
@@ -629,6 +630,7 @@ void HashTable::PrintThatTreeNum(Movie *root){
 		PrintThatTreeNum(root->numLeft); //move left
 	}
 	//print statements
+	cout << "Movie found: " << endl;
     cout << "\tTitle: " << root->title << endl;
     cout << "\tYear: " << root->year << endl;
     cout << "\tRanking: " << root->ranking << endl;

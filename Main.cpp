@@ -125,12 +125,20 @@ int main(){
             {
                 h.buildBSTString(h.root); //build a BST to order movies in alphabetical order
                 h.PrintThatTreeString(h.root); //print the BST
+
+                //clear BST
+                h.root->alphaLeft = NULL;
+                h.root->alphaRight = NULL;
                 break;
             }
 
             case 6: //Print in rank order
                 h.buildBSTNum(h.root); //build a BST to order movies in rank order
                 h.PrintThatTreeNum(h.root); //print the BST
+
+                //clear BST
+                h.root->numLeft = NULL;
+                h.root->numRight = NULL;
                 break;
 
             case 7: //Quit

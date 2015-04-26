@@ -47,9 +47,14 @@ How to Run:
 	inside the exe folder. To run this, navigate to the directory in the
 	comand line and use the command: ./a.out
 
+	Enjoy!
+
 
 Dependencies:
-	None
+	None specifically
+	Specifically built to use Linux command line compiler g++ with some functionality
+	requiring C++11. Use the tag: -std=c++11 when compiling.
+	To download g++ use command: sudo apt-get install g++
 
 
 System Requirements:
