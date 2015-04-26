@@ -18,26 +18,55 @@ Project Summary:
 	similar enough to still return 'Interstellar.'
 
 
-How to Run
+How to Run:
+	This program is intended to run on Linux, and was specifically tested on
+	Ubuntu 14.04 'Trusty Tahr'
+
 	Download all files and store in the same directory.
-	Use the linux command: g++ FinalProject.cpp s
+	This can be done by using the Download Zip button on the bottom left of
+	the page for the repo on Github.com, or by cloning directly into the repo.
+
+	To clone, first make sure you have git installed on your computer. If you
+	do not, use the Linux command: sudo apt-get install git
+
+	Use the command line to navigate into the directory in which you wish to
+	store the repo. Then use the command:
+	git clone https://github.com/JackDinkel/Dinkel_CSCI2270_FinalProject.git
+
+	Now use the cd command to navigate into the directory containing the repo
+	that has just been created
+
+	To compile, use the Linux command: g++ -std=c++11 Main.cpp HashTable.cpp
+	To run, use the Linux command: ./a.out
+	Code should run.
+
+	If code does not compile correctly, verify that g++ is properly installed.
+	To install g++, use the Linux command: sudo apt-get install g++
+
+	Additionally, a precompiled version of the original program can be found
+	inside the exe folder. To run this, navigate to the directory in the
+	comand line and use the command: ./a.out
 
 
-Dependencies
+Dependencies:
 	None
 
 
-System Requirements
+System Requirements:
 	This program is written specifically to be run on Linux, but should
 	work on any operating system with a command line compiler.
 
 
-Group Members
+Group Members:
 	Jack Dinkel
 	Derek Gorthy
 
 
-Contributors
+Contributors:
 
 
-Open Issues/Bugs
+Open Issues/Bugs:
+	Possible Expansion:
+	The "Delete movie" option on the main menu does not have a movie match
+	functionality similar to the "Find movie" option. The functionality could
+	be added in a future version of this project.
