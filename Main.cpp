@@ -9,7 +9,7 @@
 //Takes no command line input
 
 #include <iostream>
-#include "HashTable.h"
+#include "HashTable.h" //include the HashTable class
 
 using namespace std;
 
@@ -17,11 +17,18 @@ void displayMenu();
 string askInput();
 
 int main(){
+    /*
+    main function:
+    This function handles a main menu with user input to select options.
+    It then calls other functions based on the user input.
+    When the function ends, the program terminates
+    */
+
 	HashTable h(10); //initialize the table
 
-	bool quit = false;
-	int input;
-    int MovieCounter = 0;
+	bool quit = false; //when true, will end the while loop below
+	int input; //user input variable
+    int movieCounter = 0; //counter to track number of movies in hashTable
 
 	while(quit != true){ //to run until the user says quit
         displayMenu();
@@ -31,10 +38,11 @@ int main(){
         cin.clear();
         cin.ignore(10000,'\n');
 
-        switch (input){
+        switch (input){ //this switch handles the main input from the menu
             case 1: //insert movie
             {
-            	Movie *newMovie = new Movie;
+            	Movie *newMovie = new Movie; //movie to create
+                //input variables
             	string title;
             	int year;
                 int ranking;
@@ -48,7 +56,7 @@ int main(){
                 cin >> ranking;
                 while (ranking > 11 || ranking < 1){ //if ranking invalid
                     cout << "Invalid ranking! Please enter an integer between 1 and 10: ";
-                    cin >> ranking;
+                    cin >> ranking; //try again
                 }
 
             	//build the new Movie object
@@ -61,10 +69,10 @@ int main(){
                 newMovie->numLeft = NULL;
                 newMovie->numRight = NULL;
 
-                // Root successfully created and stored
-                if (MovieCounter == 0){
+                //if it is the first movie added, set as root
+                if (movieCounter == 0){
                     h.root = newMovie;
-                    MovieCounter++;
+                    movieCounter++; //increase movieCounter so the if is not entered again
                 }
 
             	h.insertMovie(newMovie); //insert the movie into the hashtable
@@ -74,8 +82,7 @@ int main(){
 
             case 2: //delete movie
             {
-            	Movie *movieToFind = new Movie;
-            	string title;
+            	string title; //input variable
 
             	//ask user for input
             	cout << "Enter title: " << endl;
@@ -89,7 +96,7 @@ int main(){
             case 3: //find movie
             {
             	Movie *movieToFind = new Movie;
-            	string title;
+            	string title; //input variable
 
             	//ask user for input
             	cout << "Enter title: " << endl;
@@ -97,10 +104,10 @@ int main(){
 
             	movieToFind = h.findMovie(title); //search the hashtable for the movie
 
-            	if (movieToFind == NULL){ //if NULL is returned, print "not found"
+            	if (movieToFind == NULL){ //if NULL is returned, try to match movie
                     h.movieMatch(title);
             	}
-            	else{ //print statement
+            	else{ //print statements
             		cout << "Movie found in position: " << h.hashFunction(title) << endl;
                     cout << "\tTitle: " << movieToFind->title << endl;
                     cout << "\tYear: " << movieToFind->year << endl;
@@ -116,14 +123,14 @@ int main(){
 
             case 5: //Print in alphebetical order
             {
-                h.buildBSTString(h.root);
-                h.PrintThatTreeString(h.root);
+                h.buildBSTString(h.root); //build a BST to order movies in alphabetical order
+                h.PrintThatTreeString(h.root); //print the BST
                 break;
             }
 
             case 6: //Print in rank order
-                h.buildBSTNum(h.root);
-                h.PrintThatTreeNum(h.root);
+                h.buildBSTNum(h.root); //build a BST to order movies in rank order
+                h.PrintThatTreeNum(h.root); //print the BST
                 break;
 
             case 7: //Quit
@@ -141,7 +148,24 @@ int main(){
     return 0;
 }
 
-void displayMenu(){ //displays the Main Menu for the program
+void displayMenu(){
+    /*
+    Function prototype:
+    void displayMenu();
+
+    Function Description:
+    This method diplays the main menu for the program and then ends
+
+    Example:
+    displayMenu();
+
+    Pre-condition:
+    None
+
+    Post-condition:
+    The menu has been printed
+    */
+
     cout << "======Main Menu======" << endl;
     cout << "1. Insert movie" << endl;
     cout << "2. Delete movie" << endl;
@@ -154,6 +178,25 @@ void displayMenu(){ //displays the Main Menu for the program
 }
 
 string askInput(){ //waits for user for input, returns a string (works with spaces)
+    /*
+    Function prototype:
+    string askInput();
+
+    Function Description:
+    This method asks the user for input
+    Spaces are not excluded, so the input string can contain a space
+
+    Example:
+    String input;
+    input = askInput();
+
+    Pre-condition:
+    A string variable to store the return value of the function needs to be initialized
+
+    Post-condition:
+    the inputed string will be returned
+    */
+
 	char input[100];
 	string inputString;
 	cin >> inputString;
