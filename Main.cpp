@@ -177,7 +177,7 @@ void displayMenu(){
     return;
 }
 
-string askInput(){ //waits for user for input, returns a string (works with spaces)
+string askInput(){
     /*
     Function prototype:
     string askInput();

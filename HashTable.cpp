@@ -5,11 +5,31 @@
 //HashTable class file
 
 #include <iostream>
-#include "HashTable.h"
+#include "HashTable.h" //include the header file
 
 using namespace std;
 
-HashTable::HashTable(int size){ //ctor
+HashTable::HashTable(int size){
+	/*
+    Function prototype:
+    HashTable::HashTable(size);
+
+    Function Description:
+    Constructor for the HashTable Class
+    Initializes the hash table as an array of Movies of an inputed size
+    Sets each Movie in the hashtable to null
+
+    Example:
+    HashTable h(10);
+
+    Pre-condition:
+    None
+
+    Post-condition:
+    A HashTable of type Movie is created.
+    Each Movie is set to null
+    */
+
 	hashTable = new Movie[size]; //initialize hashtable as an array
 	table_size = size; //set size of table
 
@@ -22,12 +42,37 @@ HashTable::~HashTable(){ //dtor
 }
 
 void HashTable::insertMovie(Movie *newMovie){ //inserts a movie into the hashtable
-	int index = hashFunction(newMovie->title);
-	bool added = false;
+	/*
+    Function prototype:
+    void HashTable::insertMovie(Movie*);
 
-	if (hashTable[index].next == NULL){ //add to beginning of linked list
+    Function Description:
+    Inserts a movie into the hashtable
+    Calls hashFunction() to determine where to store it
+    Uses a linked list to manage collisions
+    Sorts in the linked list alphabetically
+
+    Example:
+    Movie *newMovie = new Movie;
+    //set newMovie characteristics (title, year, ranking, etc...)
+	h.insertMovie(newMovie);
+
+    Pre-condition:
+    A hashTable of type Movie has been initialized
+    There can be any number of movies in it
+
+    Post-condition:
+    The hashTable will contain newMovie
+    */
+
+	int index = hashFunction(newMovie->title); //finds the index by using the hashFunction
+	bool added = false; //determines whether to add to the end of a linked list
+
+	//add to beginning of linked list
+	if (hashTable[index].next == NULL){
 		hashTable[index].next = newMovie;
 	}
+	//add to the middle of linked list
 	else{
 		Movie *traverse = new Movie; //Movie node used to move through the linked list
 
@@ -37,13 +82,14 @@ void HashTable::insertMovie(Movie *newMovie){ //inserts a movie into the hashtab
 			if (newMovie->title < traverse->next->title){ //if it has reached the spot to insert
 				newMovie->next = traverse->next;
 				traverse->next = newMovie;
-				added = true;
+				added = true; //do not enter if statement below
 				break;
 			}
 			traverse = traverse->next;
 		}
 
-		if (!added){ //add to the end of linked list
+		//add to the end of linked list
+		if (!added){
 			newMovie->next = NULL;
 			traverse->next = newMovie;
 		}
@@ -52,6 +98,29 @@ void HashTable::insertMovie(Movie *newMovie){ //inserts a movie into the hashtab
 }
 
 Movie* HashTable::findMovie(string in_title){ //searches for a movie inside the hashtable
+	/*
+    Function prototype:
+    Movie* HashTable::findMovie(string);
+
+    Function Description:
+    Searches for a movie in the HashTable
+    Calculates the index of in_title and searches the linked list stored in that slot in the table
+    Returns the found movie. If no movie is found, returns a NULL movie
+
+    Example:
+    Movie *myMovie = new Movie;
+    string title;
+    //set the value of title
+	myMovie = h.findMovie(title);
+
+    Pre-condition:
+    The hashTable must exist
+    There can be any number of movies in it
+
+    Post-condition:
+    myMovie will now contain either the found movie or NULL
+    */
+
 	int index = hashFunction(in_title); //find location of Movie inside the hashtable
 	Movie *traverse = new Movie; //Movie node used to move through the linked list
 
