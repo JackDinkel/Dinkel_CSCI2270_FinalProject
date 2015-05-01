@@ -43,10 +43,6 @@ How to Run:
 	If code does not compile correctly, verify that g++ is properly installed.
 	To install g++, use the Linux command: sudo apt-get install g++
 
-	Additionally, a precompiled version of the original program can be found
-	inside the exe folder. To run this, navigate to the directory in the
-	comand line and use the command: ./a.out
-
 	Enjoy!
 
 
