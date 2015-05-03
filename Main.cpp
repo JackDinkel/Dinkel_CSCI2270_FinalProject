@@ -9,6 +9,7 @@
 //Takes no command line input
 
 #include <iostream>
+#include <cstdlib>
 #include "HashTable.h" //include the HashTable class
 
 using namespace std;
@@ -52,16 +53,24 @@ int main(){
             	title = askInput();
             	cout << "Enter year: ";
             	cin >> year;
+            	while (!cin){
+					cout << "Invalid year! Please enter a valid year: ";
+					cin.clear();
+					cin.ignore(10000,'\n');
+                    cin >> year; //try again
+				}
                 cout << "Enter your ranking (1-10): ";
                 cin >> ranking;
                 while (ranking > 11 || ranking < 1){ //if ranking invalid
                     cout << "Invalid ranking! Please enter an integer between 1 and 10: ";
+                    cin.clear();
+                    cin.ignore(10000,'\n');
                     cin >> ranking; //try again
                 }
 
             	//build the new Movie object
             	newMovie->title = title;
-            	newMovie->year = year;
+            	newMovie->year =  year;
                 newMovie->ranking = ranking;
                 newMovie->next = NULL;
                 newMovie->alphaLeft = NULL;
